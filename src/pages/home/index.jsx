@@ -1,20 +1,16 @@
-import {ProvinceList} from "~/pages/home/components/ProvinceList.jsx";
+import {CityList} from "~/pages/home/components/CityList.jsx";
+import {CityMap} from "~/pages/home/components/CityMap.jsx";
+import {Header} from "~/pages/home/components/Header.jsx";
+import {useState} from "react";
 
 export function Home() {
+
+  const [activeComponent, setActiveComponent] = useState('list');
+
   return (
     <div>
-      <h1 className="text-white flex justify-center mt-10 text-6xl font-bold">Türkiye illere Göre Hava Durumu</h1>
-      <div className="">
-        <div className="flex mt-10 mx-auto h-[4rem] w-[20rem] rounded-3xl bg-[#060B16] p-2 gap-1">
-          <div className="px-2 text-xl justify-center items-center w-[10rem] flex text-white bg-[#E30A17] rounded-3xl">
-            <p>Şehir Listesi</p>
-          </div>
-          <div className="px-2 text-xl justify-center items-center w-[10rem] flex text-white bg-[#E30A17] rounded-3xl">
-            <p>Harita</p>
-          </div>
-        </div>
-      </div>
-      <ProvinceList/>
+      <Header activeComponent={activeComponent} setActiveComponent={setActiveComponent}/>
+      {activeComponent === 'list' ? <CityList/> : <CityMap/>}
     </div>
   )
 }

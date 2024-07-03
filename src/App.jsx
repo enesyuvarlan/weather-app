@@ -1,11 +1,12 @@
-import {Home} from "~/pages/home/index.jsx";
+import {store} from "~/stores/store.js";
+import {RouterProvider} from "react-router-dom";
+import routes from "~/routes.jsx";
+import {Provider} from "react-redux";
 
-export default function App() {
-
-
+export function App() {
   return (
-    <div>
-      <Home/>
-    </div>
+    <Provider store={store}>
+      <RouterProvider router={routes}/>
+    </Provider>
   )
 }
