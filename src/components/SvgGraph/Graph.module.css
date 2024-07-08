@@ -1,0 +1,237 @@
+.svgComponentClass {
+  body {
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #e6e8ec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .graph {
+    position: relative;
+    background-color: white;
+    margin: 2rem;
+    width: 1000px;
+    height: 400px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.01),
+    0 4px 20px rgba(0, 0, 0, 0.01),
+    0 6px 40px rgba(0, 0, 0, 0.01),
+    0 8px 60px rgba(0, 0, 0, 0.01);
+  }
+
+  .labels {
+    display: flex;
+    width: 100%;
+    position: absolute;
+    justify-content: space-between;
+    left: 0;
+    bottom: 0;
+    box-sizing: border-box;
+  }
+
+  .labels div {
+    margin: 1rem;
+    color: #b7bbc8;
+  }
+
+  @media screen and (max-width: 520px) {
+    .labels div {
+      font-size: 0.8rem;
+      margin: 0.5rem;
+    }
+  }
+
+  .heading {
+    position: absolute;
+    top: 3rem;
+    left: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem 0;
+    align-items: flex-start;
+  }
+
+  .heading .title {
+    font-weight: bold;
+    font-size: 3rem;
+    color: #293155;
+  }
+
+  .heading .subtitle {
+    font-size: 1.2rem;
+    color: #898fa3;
+  }
+
+  @media screen and (max-width: 760px) {
+    .heading {
+      top: 2rem;
+      left: 2rem;
+    }
+  }
+
+  @media screen and (max-width: 520px) {
+    .heading {
+      top: 1rem;
+      left: 1rem;
+    }
+
+    .heading .title {
+      font-size: 1.5rem;
+    }
+
+    .heading .subtitle {
+      font-size: 0.9rem;
+    }
+  }
+
+  .points {
+    position: absolute;
+    top: 0;
+  }
+
+  .points div {
+    --size: 3rem;
+    position: absolute;
+    width: var(--size);
+    height: var(--size);
+    top: var(--y);
+    left: var(--x);
+    transform: translate(calc(-0.5 * var(--size)), calc(-0.5 * var(--size)));
+  }
+
+  .marker {
+    position: absolute;
+    top: var(--y);
+    left: var(--x);
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    transform: translateX(-50%);
+  }
+
+  .marker .tooltip {
+    position: absolute;
+    transform: translateY(calc(-100% - 2rem));
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.4rem;
+    box-shadow: 0 2px 2px rgb(0 0 0 / 10%),
+    0 4px 10px rgb(0 0 0 / 10%);
+  }
+
+  .marker .tooltip::before, .marker .tooltip::after {
+    --size: 0.8rem;
+    content: '';
+    position: absolute;
+    border: calc(var(--size) * 0.5) solid transparent;
+    left: calc(50% - calc(var(--size) * 0.5));
+  }
+
+  .marker .tooltip::before {
+    bottom: calc(-1 * var(--size) - 2px);
+    border-top-color: rgb(0 0 0 / 6%);
+  }
+
+  .marker .tooltip::after {
+    bottom: calc(-1 * var(--size));
+    border-top-color: white;
+  }
+
+  .marker .tooltip span:first-child {
+    color: #b7bbc8;
+    padding-right: 1rem;
+  }
+
+  .marker .tooltip span:last-child {
+    border-left: 1px solid #b7bbc8;
+    padding-left: 1rem;
+  }
+
+  .marker .circle {
+    position: absolute;
+    top: 0;
+    flex-shrink: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 1rem;
+    background-color: var(--color);
+    border: 0.7rem solid white;
+    transform: translateY(-50%);
+    box-shadow: 0 1px 5px rgb(0 0 0 / 10%),
+    0 2px 15px rgb(0 0 0 / 10%);
+  }
+
+  .marker .line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: #ccd3e7;
+  }
+
+  .legend {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 0 1rem;
+    margin: 3rem;
+  }
+
+  .legend > div {
+    display: flex;
+    color: #898fa3;
+  }
+
+  .legend span {
+    display: block;
+    background-color: var(--color);
+    width: 1rem;
+    height: 1rem;
+    border-radius: 1rem;
+    margin-right: 0.5rem;
+  }
+
+  @media screen and (max-width: 760px) {
+    .legend {
+      justify-content: flex-end;
+      margin: 2rem;
+    }
+  }
+
+  @media screen and (max-width: 520px) {
+    .legend {
+      margin: 1rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    transform: scaleY(-1); /* Change to cartesian coordinate system */
+  }
+
+  svg path {
+    vector-effect: non-scaling-stroke;
+  }
+
+  svg .stroke {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 0.15rem;
+    pointer-events: none;
+  }
+
+  svg .gradient {
+    pointer-events: none;
+  }
+
+}

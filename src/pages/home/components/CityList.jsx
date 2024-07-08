@@ -3,20 +3,18 @@ import cities from '~/data/cities.json';
 import {useState} from "react";
 
 export function CityList() {
-
   const [searchTerm, setSearchTerm] = useState('')
-
   const handleSearch = (e) => {
     setSearchTerm(e.target.value)
   }
-
   const filteredCities = cities.filter(city => city.il_adi.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
   )
+
   return (
     <div className="">
       <div className="mt-16">
         <label
-          className="group flex text-white p-2 mx-auto h-[3rem] w-[28rem] border-[1px] border-[#5C6272] rounded-md focus-within:border-[#ccd0db]">
+          className="group flex text-white p-2 mx-auto h-[3rem] w-[28rem] border border-[#5C6272] rounded-md focus-within:border-[#ccd0db]">
           <svg viewBox="0 0 24 24"
                className="text-[#5C6272] group-focus-within:text-[#ccd0db]">
             <path
@@ -36,8 +34,8 @@ export function CityList() {
       <div className="flex justify-center items-center ">
         <div
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5 ">
-          {filteredCities.map((city, index) => (
-            <CityButton city={city} key={city.plaka} index={index}/>
+          {filteredCities.map((city) => (
+            <CityButton key={city.plaka} il_adi={city.il_adi} plaka={city.plaka}/>
           ))}
         </div>
       </div>

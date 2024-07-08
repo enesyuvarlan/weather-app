@@ -1,10 +1,18 @@
 import TurkeyMap from 'turkey-map-react';
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {setCity} from "~/stores/citySlice.js";
 
 export function CityMap() {
   const [position, setPosition] = useState({x: 0, y: 0})
   const [hoverName, setHoverName] = useState(null);
   const [hoverRegion, setHoverRegion] = useState(null);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const {il_adi, plaka} = useSelector((state) => state.city)
+
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -16,6 +24,11 @@ export function CityMap() {
     }
   }, []);
 
+  const handleClick = (plateNumber, name) => {
+    dispatch(setCity({il_adi: name.toLocaleUpperCase(), plaka: plateNumber}))
+    navigate(`/city/${plateNumber}`)
+    console.log('İl Adı', {il_adi})
+  }
   return (
     <div
       onMouseLeave={() => {
@@ -23,13 +36,14 @@ export function CityMap() {
       }}
     >
       <TurkeyMap
-        // viewBox={{width: 200, height: 200}}
+        onClick={({plateNumber, name}) => {
+          handleClick(plateNumber, name)
+        }}
         hoverable={true}
         customStyle={{idleColor: "#5C6272", hoverColor: "#E30A17"}}
         onHover={({name}) => {
           setHoverName(name)
           setHoverRegion(true)
-          console.log('hoverRegion:', {hoverRegion}, 'hoverName:', {hoverName})
         }}
       />
       {hoverRegion && (

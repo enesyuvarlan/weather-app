@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 export function PrivateRoute({children}) {
 
   const api = useSelector((state) => state.api.api)
-  console.log('api', api)
   if (!api) {
     return <Navigate to="/set-api-key"/>
   }
