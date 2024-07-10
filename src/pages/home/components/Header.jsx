@@ -9,18 +9,19 @@ export function Header({activeComponent, setActiveComponent}) {
         Türkiye illere Göre Hava Durumu
       </h1>
       <div className="sticky top-10">
-        <div className="flex mt-10 mx-auto h-[3.5rem] w-[20rem] rounded-3xl bg-[#060B16] p-2 gap-1">
+        <div
+          className="border-[1px] border-[#5C6272] flex mt-10 mx-auto h-[3.5rem] w-[20rem] rounded-3xl bg-[#060B16] p-2 gap-1">
           <button
             onClick={() => setActiveComponent('list')}
             className={classNames("px-2 text-xl justify-center items-center w-[10rem] flex text-white rounded-3xl", {
-              "bg-[#E30A17]": activeComponent === 'list'
+              "bg-[#EB6E4B]": activeComponent === 'list'
             })}>
             <p>Şehir Listesi</p>
           </button>
           <button
             onClick={() => setActiveComponent('map')}
             className={classNames("px-2 text-xl justify-center items-center w-[10rem] flex text-white  rounded-3xl", {
-              "bg-[#E30A17]": activeComponent === 'map'
+              "bg-[#EB6E4B]": activeComponent === 'map'
             })}>
             <p>Harita</p>
           </button>

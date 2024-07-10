@@ -33,10 +33,10 @@ export function SetApiKey() {
           {error && (<ErrorPopUp/>)}
           <form onSubmit={handleSubmit}>
             <label
-              className="group justify-center items-center flex text-white p-2 mx-auto h-[5rem] w-[28rem] border-[2px] border-[#A9ADB9] rounded-[4rem] focus-within:border-[#E7E9F1]">
+              className="bg-[#060B16] group justify-center items-center flex text-white p-2 mx-auto h-[5rem] w-[28rem] border-[2px] border-[#A9ADB9] rounded-[4rem] focus-within:border-[#E7E9F1]">
               <input
-                className="text-[2rem] ml-7 mr-3 bg-transparent w-full outline-none placeholder:text-[#A9ADB9] group-focus-within:placeholder:text-[#E7E9F1]"
-                placeholder="Search"
+                className="placeholder:text-center text-[2rem] ml-7 mr-3 bg-transparent w-full outline-none placeholder:text-[#A9ADB9] group-focus-within:placeholder:text-[#E7E9F1]"
+                placeholder="Search..."
                 value={key}
                 onChange={(e) => setKey(e.target.value)}
 
@@ -45,7 +45,7 @@ export function SetApiKey() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-[#E30A17] rounded-full h-[60px] w-[60px] "
+                  className="bg-[#EB6E4B] rounded-full h-[60px] w-[60px] "
                 >
                   <div className="w-full h-full flex justify-center items-center">
                     {loading ? (
