@@ -6,7 +6,8 @@ function useForecastData() {
 
   const {lat, lon} = useSelector((state) => state.city)
   // const API_KEY = useSelector((state) => state.api.api)
-  const API_KEY = process.env.REACT_APP_WEATHER_API_KEY
+  // const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
+  const API_KEY = process.env.NEXT_PUBLIC_API_KEY //Vercel
   const lang = 'tr'
   const [forecastData, setForecastData] = useState(null);
   const [error, setError] = useState(null);
