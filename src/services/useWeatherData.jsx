@@ -5,9 +5,9 @@ import axios from "axios";
 function useWeatherData() {
 
   const {il_adi} = useSelector((state) => state.city)
-  const API_KEY = useSelector((state) => state.api.api)
+  // const API_KEY = useSelector((state) => state.api.api)
+  const API_KEY = process.env.REACT_APP_WEATHER_API_KEY
   const lang = 'tr'
-
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${il_adi}&units=metric&appid=${API_KEY}&lang=${lang}`
 
   const [weatherData, setWeatherData] = useState(null);
@@ -26,10 +26,10 @@ function useWeatherData() {
         setError(error.message);
       }
     }
-    if (il_adi && API_KEY) {
+    if (il_adi) {
       fetchWeatherData();
     }
-  }, [il_adi, API_KEY, lang]);
+  }, [il_adi, lang]);
 
   return {weatherData, error, lat, lon}
 }

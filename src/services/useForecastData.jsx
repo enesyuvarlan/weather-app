@@ -5,9 +5,9 @@ import axios from "axios";
 function useForecastData() {
 
   const {lat, lon} = useSelector((state) => state.city)
-  const API_KEY = useSelector((state) => state.api.api)
+  // const API_KEY = useSelector((state) => state.api.api)
+  const API_KEY = process.env.REACT_APP_WEATHER_API_KEY
   const lang = 'tr'
-
   const [forecastData, setForecastData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -21,10 +21,10 @@ function useForecastData() {
         setError(error.message);
       }
     }
-    if (lat && lon && API_KEY) {
+    if (lat && lon) {
       fetchForecastData();
     }
-  }, [lat, lon, API_KEY, lang]);
+  }, [lat, lon, lang]);
 
   return {error, forecastData}
 }

@@ -7,12 +7,7 @@ import {City} from "~/pages/city/index.jsx";
 const routes = createBrowserRouter([
   {
     path: '/',
-    element:
-      (
-        <PrivateRoute>
-          <Home/>
-        </PrivateRoute>
-      )
+    element:<Home/>
   },
   {
     path: '/set-api-key',
