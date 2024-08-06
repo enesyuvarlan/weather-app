@@ -23,3 +23,11 @@ export function capitalizeFirstLetter(string) {
   if (!string) return ''
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export const formatDate = (timestamp) => {
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleTimeString('tr-TR', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+};

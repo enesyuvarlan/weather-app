@@ -38,11 +38,9 @@ export function WeatherHeader() {
       <div className="flex justify-between items-center mx-auto max-w-[100rem] h-full">
         <button
           onClick={goBack}
-          className="flex items-center h-[2.5rem] p-2 rounded-xl ml-[1rem]
-          space-x-1 text-white text-xl bg-[#EB6E4B] hover:brightness-125 "
+          className="flex justify-center items-center h-[2.5rem] w-[7.5rem] ml-[2rem] rounded-xl text-white bg-[#EB6E4B] hover:brightness-125 "
         >
-          <IoIosArrowBack size={'1.8rem'}/>
-          <span className="font-semibold">Geri Dön</span>
+          <IoIosArrowBack size={'2rem'}/>
         </button>
         <div className="flex justify-center items-center mr-[2rem]">
           <select

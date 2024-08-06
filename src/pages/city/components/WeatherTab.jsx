@@ -8,7 +8,7 @@ export function WeatherTab() {
   const forecastList = (forecastData?.list || []).filter((_, index) => index % 8 === 0)
 
   return (
-    <div className="w-full mt-3 ">
+    <div className="w-full">
       <div className="mx-auto max-w-[90rem] ">
         <div className="justify-between grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {forecastList?.map((item, index) => {

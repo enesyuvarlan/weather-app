@@ -1,20 +1,33 @@
 import {useState} from "react";
 import useWeatherData from "~/services/useWeatherData.jsx";
 import {useSelector} from "react-redux";
-import {roundTemperature, capitalizeFirstLetter} from "~/utils.js";
+import {roundTemperature, capitalizeFirstLetter, formatDate} from "~/utils.js";
+import {Graph} from "~/components/SvgGraph/Graph.jsx";
+import useForecastData from "~/services/useForecastData.jsx";
 
 export function WeatherContent() {
 
   const weatherMetrics = [
-    {type: 'Sıcaklık', unit: '°C'},
-    {type: 'Hissedilen', unit: '°C'},
-    {type: 'Nem', unit: '%'},
-    {type: 'Rüzgar', unit: 'km/h'},
+    {type: 'Sıcaklık', unit: '°C', key: 'temp_max', min: 0, max: 50, color: '#EB6E4B'},
+    {type: 'Hissedilen', unit: '°C', key: 'feels_like', min: 0, max: 50, color: '#33C1FF'},
+    {type: 'Nem', unit: '%', key: 'humidity', min: 0, max: 100, color: '#33FF57'},
+    {type: 'Rüzgar', unit: 'm/s', key: 'wind_speed', min: 0, max: 25, color: '#FF33A1'},
   ];
 
-  const [selectedMetric, setSelectedMetric] = useState(0);
   const {il_adi, plaka} = useSelector((state) => state.city)
+
   const {weatherData, error} = useWeatherData()
+  const {forecastData} = useForecastData()
+
+  const [selectedMetric, setSelectedMetric] = useState(0);
+
+  const fiveData = forecastData?.list ? forecastData.list.slice(0, 7) : [];
+  const fiveDataDT = fiveData?.map(item => formatDate(item.dt))
+
+  const fiveDataTemps = fiveData?.map(item => roundTemperature(item.main.temp_max))
+  const fiveDataFeels = fiveData?.map(item => item.main.feels_like)
+  const fiveDataHumidity = fiveData?.map(item => item.main.humidity)
+  const fiveDataWind = fiveData?.map(item => item.wind.speed)
 
 
   const temperature = roundTemperature(weatherData?.main.temp)
@@ -23,16 +36,30 @@ export function WeatherContent() {
 
   const iconCode = weatherData?.weather[0]?.icon;
   const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
-
+  const getMetricData = () => {
+    switch (selectedMetric) {
+      case 0:
+        return fiveDataTemps;
+      case 1:
+        return fiveDataFeels;
+      case 2:
+        return fiveDataHumidity;
+      case 3:
+        return fiveDataWind;
+      default:
+        return fiveDataTemps;
+    }
+  };
 
   return (
-    <div className="w-full mt-1">
+    <div className="w-full">
       <div className="mx-auto max-w-[100rem]">
         <div className="mx-5">
           <div className="flex justify-between">
             <div className=" flex justify-center items-center gap-2 ">
               <div className="h-[9rem] w-full">
-                <img src={iconUrl} alt={weatherDescription} className="h-full w-full object-cover object-center"/>
+                <img src={iconUrl} alt={weatherDescription}
+                     className="h-full w-full object-cover object-center"/>
               </div>
               <div className="text-white">
                 <span className="text-4xl font-semibold">{temperature}°</span>
@@ -67,20 +94,29 @@ export function WeatherContent() {
                     {item.type}
                   </button>
                   <div
-                    className={`w-full h-1 rounded-xl ${selectedMetric === index ? 'bg-[#EB6E4B]' : 'bg-transparent'}`}>
+                    className={`w-full h-1 rounded-xl`}
+                    style={{
+                      backgroundColor: selectedMetric === index
+                        ? weatherMetrics[selectedMetric].color
+                        : 'transparent'
+                    }}>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="h-[25rem] w-full flex justify-center items-center">
-
-
-              {/*<Graph*/}
-              {/*  className={GraphCSS.svgComponentClass}*/}
-              {/*  data={DATA} colors={COLORS} range={[0, 3000]}*/}
-              {/*  labels={LABELS} title='$11,3K' subtitle='YTD Revenue'*/}
-              {/*  legend={['Stream A', 'Stream B']}/>*/}
-
+            <div className="h-[23rem] w-full flex justify-center items-center">
+              <div className="relative">
+                <Graph
+                  data={[getMetricData()]}
+                  colors={[weatherMetrics[selectedMetric].color]}
+                  range={[weatherMetrics[selectedMetric].min, weatherMetrics[selectedMetric].max]}
+                  labels={fiveDataDT}/>
+                <div className="mx-5 flex justify-between" style={{color: weatherMetrics[selectedMetric].color}}>
+                  {getMetricData().map((item, index) => (
+                    <div className="" key={index}>{item}{weatherMetrics[selectedMetric].unit}</div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
