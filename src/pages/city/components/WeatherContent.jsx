@@ -1,9 +1,12 @@
 import {useState} from "react";
 import useWeatherData from "~/services/useWeatherData.jsx";
 import {useSelector} from "react-redux";
-import {roundTemperature, capitalizeFirstLetter, formatDate} from "~/utils.js";
+import {capitalizeFirstLetter, formatDate, roundTemperature} from "~/utils.js";
 import {Graph} from "~/components/SvgGraph/Graph.jsx";
 import useForecastData from "~/services/useForecastData.jsx";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 
 export function WeatherContent() {
 
@@ -16,7 +19,7 @@ export function WeatherContent() {
 
   const {il_adi, plaka} = useSelector((state) => state.city)
 
-  const {weatherData, error} = useWeatherData()
+  const {weatherData, error, weatherLoading} = useWeatherData()
   const {forecastData} = useForecastData()
 
   const [selectedMetric, setSelectedMetric] = useState(0);
@@ -58,16 +61,30 @@ export function WeatherContent() {
           <div className="flex justify-between">
             <div className=" flex justify-center items-center gap-2 ">
               <div className="h-[9rem] w-full">
-                <img src={iconUrl} alt={weatherDescription}
-                     className="h-full w-full object-cover object-center"/>
+                {weatherLoading ? (
+                  <Skeleton height="7rem" width="7rem" borderRadius="1rem" baseColor="#141d2e"
+                            highlightColor="#28354d"/>
+                ) : (
+                  <img src={iconUrl} alt={weatherDescription} className="h-full w-full object-cover object-center"/>
+                )}
               </div>
               <div className="text-white">
-                <span className="text-4xl font-semibold">{temperature}°</span>
+                {weatherLoading ? (
+                  <Skeleton height="3rem" width="7rem" borderRadius="1rem" baseColor="#141d2e"
+                            highlightColor="#28354d"/>
+                ) : (
+                  <span className="text-4xl font-semibold">{temperature}°</span>
+                )}
               </div>
             </div>
             <div className="flex-col">
               <div>
-                <span className="text-white text-4xl font-semibold flex justify-end">{cityName}</span>
+                {weatherLoading ? (
+                  <Skeleton height="3rem" width="7rem" borderRadius="1rem" baseColor="#141d2e"
+                            highlightColor="#28354d"/>
+                ) : (
+                  <span className="text-white text-4xl font-semibold flex justify-end">{cityName}</span>
+                )}
               </div>
               <div className="text-lg font-semibold mt-3 text-gray-400">
                 <span className=" flex justify-end">
@@ -78,7 +95,12 @@ export function WeatherContent() {
                   })}
                 </span>
                 <div>
-                  <span className="flex justify-end">{weatherDescription}</span>
+                  {weatherLoading ? (
+                    <Skeleton height="2rem" width="7rem" borderRadius="1rem" baseColor="#141d2e"
+                              highlightColor="#28354d"/>
+                  ) : (
+                    <span className="flex justify-end">{weatherDescription}</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -106,16 +128,23 @@ export function WeatherContent() {
             </div>
             <div className="h-[23rem] w-full flex justify-center items-center">
               <div className="relative">
-                <Graph
-                  data={[getMetricData()]}
-                  colors={[weatherMetrics[selectedMetric].color]}
-                  range={[weatherMetrics[selectedMetric].min, weatherMetrics[selectedMetric].max]}
-                  labels={fiveDataDT}/>
-                <div className="mx-5 flex justify-between" style={{color: weatherMetrics[selectedMetric].color}}>
-                  {getMetricData().map((item, index) => (
-                    <div className="" key={index}>{item}{weatherMetrics[selectedMetric].unit}</div>
-                  ))}
-                </div>
+                {weatherLoading ? (
+                  <Skeleton height="20rem" width="90rem" borderRadius="1rem" baseColor="#141d2e"
+                            highlightColor="#28354d"/>
+                ) : (
+                  <div>
+                    <Graph
+                      data={[getMetricData()]}
+                      colors={[weatherMetrics[selectedMetric].color]}
+                      range={[weatherMetrics[selectedMetric].min, weatherMetrics[selectedMetric].max]}
+                      labels={fiveDataDT}/>
+                    <div className="mx-5 flex justify-between" style={{color: weatherMetrics[selectedMetric].color}}>
+                      {getMetricData().map((item, index) => (
+                        <div className="" key={index}>{item}{weatherMetrics[selectedMetric].unit}</div>
+                      ))}
+                    </div>
+                  </div>)}
+
               </div>
             </div>
           </div>

@@ -1,9 +1,11 @@
 import useForecastData from "~/services/useForecastData.jsx";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
 export function WeatherTab() {
 
-  const {forecastData} = useForecastData()
+  const {forecastData, forecastLoading} = useForecastData()
 
   const forecastList = (forecastData?.list || []).filter((_, index) => index % 8 === 0)
 
@@ -27,27 +29,32 @@ export function WeatherTab() {
                 className=" relative mx-auto overflow-hidden bg-transparent my-3 rounded-xl hover:bg-[opacity-50]">
                 <span
                   className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-10 transition-opacity duration-300 ease-in-out opacity-0 hover:opacity-100"/>
-                <div className="flex-row  min-w-[10rem] min-h-[10rem] h-[14rem] w-[14rem]">
-                  <div className="flex justify-center items-center  w-full ">
-                    <span className="text-white text-lg font-semibold">{dayName}</span>
-                  </div>
-                  <div className=" flex-row mt-2">
-                    <div className="h-[8rem] w-full ">
-                      <img
-                        src={iconUrl} alt={weatherDescription}
-                        className=" h-full w-full object-cover object-center"/>
+                {forecastLoading ? (
+                  <Skeleton height="14rem" width="14rem" borderRadius="1rem" baseColor="#141d2e"
+                            highlightColor="#28354d"/>
+                ) : (
+                  <div className="flex-row  min-w-[10rem] min-h-[10rem] h-[14rem] w-[14rem]">
+                    <div className="flex justify-center items-center  w-full ">
+                      <span className="text-white text-lg font-semibold">{dayName}</span>
+                    </div>
+                    <div className=" flex-row mt-2">
+                      <div className="h-[8rem] w-full ">
+                        <img
+                          src={iconUrl} alt={weatherDescription}
+                          className=" h-full w-full object-cover object-center"/>
+                      </div>
+                    </div>
+                    <div className="flex-col">
+                      <div className="flex justify-center">
+                        <span className=" bottom-0 left-10 text-gray-300 text-lg">{weatherDescription}</span>
+                      </div>
+                      <div className="flex justify-center gap-1 mt-1">
+                        <span className="text-white font-semibold text-lg">{temp_max}°</span>
+                        <span className="text-gray-400 text-lg">{temp_min}°</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex-col">
-                    <div className="flex justify-center">
-                      <span className=" bottom-0 left-10 text-gray-300 text-lg">{weatherDescription}</span>
-                    </div>
-                    <div className="flex justify-center gap-1 mt-1">
-                      <span className="text-white font-semibold text-lg">{temp_max}°</span>
-                      <span className="text-gray-400 text-lg">{temp_min}°</span>
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
             )
           })}

@@ -2,7 +2,6 @@ import {useDimensions} from 'webrix/hooks';
 import PropTypes from 'prop-types';
 import {useRef, useState} from 'react';
 import {Marker} from "./Marker";
-import {Legend} from "./Legend";
 import {Line} from "./Line";
 import {Points} from "./Points";
 import "~/components/SvgGraph/Graph.css";

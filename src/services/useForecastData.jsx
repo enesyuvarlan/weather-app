@@ -11,15 +11,20 @@ function useForecastData() {
   const lang = 'tr'
   const [forecastData, setForecastData] = useState(null);
   const [error, setError] = useState(null);
+  const [forecastLoading, setForecastLoading] = useState(false);
+
 
   useEffect(() => {
     const fetchForecastData = async () => {
+      setForecastLoading(true)
       try {
         const url2 = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}&lang=${lang}`
         const response2 = await axios.get(url2)
         setForecastData(response2.data)
       } catch (error) {
         setError(error.message);
+      } finally {
+        setForecastLoading(false); // API isteği tamamlandıktan sonra loading false
       }
     }
     if (lat && lon) {
@@ -27,7 +32,7 @@ function useForecastData() {
     }
   }, [lat, lon, lang]);
 
-  return {error, forecastData}
+  return {error, forecastData, forecastLoading}
 }
 
 export default useForecastData;
